@@ -18,8 +18,8 @@ static const float rootcolor[]             = COLOR(0x000000ff);
 static const float fullscreen_bg[]         = {0.1f, 0.1f, 0.1f, 1.0f}; /* You can also use glsl colors */
 static uint32_t colors[][3]                = {
 	/*               fg          bg          border    */
-	[SchemeNorm] = { 0xcdd6f4ff, 0x1e1e2eff, 0x1e1e2eff },
-	[SchemeSel]  = { 0xf2cdcdff, 0x1e1e2eff, 0xcba6f7ff },
+	[SchemeNorm] = { 0xcdd6f4ff, 0x000000ff, 0x1e1e2eff },
+	[SchemeSel]  = { 0xf2cdcdff, 0x000000ff, 0xeba0acff },
 	[SchemeUrg]  = { 0,          0,          0x770000ff },
 };
 
@@ -31,8 +31,8 @@ static int log_level = WLR_ERROR;
 
 /* NOTE: ALWAYS keep a rule declared even if you don't use rules (e.g leave at least one example) */
 static const Rule rules[] = {
-	/* app_id title tags mask isfloating monitor */
-	{ "QQ",   NULL, 1 << 8,   0,         -1 }, /* Start on ONLY tag "9" */
+	/* app_id  title  tags mask  isfloating  monitor */
+	{ "QQ",    NULL,  0,         1,          -1 },
 };
 
 /* layout(s) */
