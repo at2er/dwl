@@ -30,6 +30,17 @@ static char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 /* logging */
 static int log_level = WLR_ERROR;
 
+/* Autostart */
+static const char *const autostart[] = {
+	"fcitx5", "-d", NULL,
+        "wl-paste", "--type", "text", "--watch", "cliphist", "store", NULL,
+        "wl-paste", "--type", "image", "--watch", "cliphist", "store", NULL,
+        "dunst", NULL,
+	"sh", "-c", "swaybg -i ~/Pictures/wallpaper/current.png -m fill", NULL,
+        NULL /* terminate */
+};
+
+
 /* NOTE: ALWAYS keep a rule declared even if you don't use rules (e.g leave at least one example) */
 static const Rule rules[] = {
 	/* app_id  title  tags mask  isfloating  monitor */
@@ -168,6 +179,7 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_ALT,   XKB_KEY_m,          spawn,            SHCMD("mpdmenu -p") },
 	{ MODKEY|WLR_MODIFIER_ALT,   XKB_KEY_Up,         spawn,            SHCMD("volume -u") },
 	{ MODKEY|WLR_MODIFIER_ALT,   XKB_KEY_Down,       spawn,            SHCMD("volume -d") },
+	{ MODKEY,                    XKB_KEY_c,          spawn,            SHCMD("screenshot") },
 	{ MODKEY,                    XKB_KEY_j,          focusstack,       {.i = +1} },
 	{ MODKEY,                    XKB_KEY_k,          focusstack,       {.i = -1} },
 	{ MODKEY,                    XKB_KEY_i,          incnmaster,       {.i = +1} },
