@@ -25,9 +25,8 @@ static int passthrough = 0;
 
 static const Rule rules[] = {
 	/* app_id             title       tags mask     isfloating   monitor */
-	{ "Gimp_EXAMPLE",     NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
-	{ "firefox_EXAMPLE",  NULL,       1 << 8,       0,           -1 }, /* Start on ONLY tag "9" */
-	/* default/example rule: can be changed but cannot be eliminated; at least one rule must exist */
+	{ "QQ",               "QQ",       0,            0,           -1 },
+	{ "QQ",               NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -76,7 +75,7 @@ LIBINPUT_CONFIG_SCROLL_2FG
 LIBINPUT_CONFIG_SCROLL_EDGE
 LIBINPUT_CONFIG_SCROLL_ON_BUTTON_DOWN
 */
-static const enum libinput_config_scroll_method scroll_method = LIBINPUT_CONFIG_SCROLL_2FG;
+static const enum libinput_config_scroll_method scroll_method = LIBINPUT_CONFIG_SCROLL_EDGE;
 
 /* You can choose between:
 LIBINPUT_CONFIG_CLICK_METHOD_NONE
@@ -119,20 +118,16 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *screenshot_sc[] = { "screenshot", "-s", "-c", NULL };
-static const char *screenshot_ac[] = { "screenshot", "-a", "-c", NULL };
-static const char *screenshot_sf[] = { "screenshot", "-s", "-f", NULL };
-static const char *screenshot_af[] = { "screenshot", "-a", "-f", NULL };
 static const char *termcmd[] = { "foot", NULL };
 static const char *menucmd[] = { "wmenu-run", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */
 	/* modifier                  key                  function          argument */
-	{ MODKEY,                    XKB_KEY_c,           spawn,            {.v = screenshot_sc} },
-	{ MODKEY,                    XKB_KEY_Print,       spawn,            {.v = screenshot_ac} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_c,           spawn,            {.v = screenshot_sf} },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Print,       spawn,            {.v = screenshot_af} },
+	{ MODKEY,                    XKB_KEY_c,           spawn,            CMD("screenshot", "-s", "-c") },
+	{ MODKEY,                    XKB_KEY_Print,       spawn,            CMD("screenshot", "-s", "-f") },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_c,           spawn,            CMD("screenshot", "-a", "-c") },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Print,       spawn,            CMD("screenshot", "-a", "-f") },
 	{ MODKEY,                    XKB_KEY_d,           spawn,            {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_f,           togglefullscreen, {0} },
 	{ MODKEY,                    XKB_KEY_q,           killclient,       {0} },
@@ -145,6 +140,11 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_m,           spawn,            CMD("mpdaction")    },
 	{ MODKEY|WLR_MODIFIER_ALT,   XKB_KEY_Up,          spawn,            CMD("setvol", "-u") },
 	{ MODKEY|WLR_MODIFIER_ALT,   XKB_KEY_Down,        spawn,            CMD("setvol", "-d") },
+
+	{ 0, XKB_KEY_XF86MonBrightnessUp,                 spawn,            CMD("setvol", "-u") },
+	{ 0, XKB_KEY_XF86MonBrightnessDown,               spawn,            CMD("setvol", "-d") },
+	{ 0, XKB_KEY_XF86AudioRaiseVolume,                spawn,            CMD("setvol", "-u") },
+	{ 0, XKB_KEY_XF86AudioLowerVolume,                spawn,            CMD("setvol", "-d") },
 
 	{ MODKEY,                    XKB_KEY_j,           focusstack,       {.i = +1} },
 	{ MODKEY,                    XKB_KEY_k,           focusstack,       {.i = -1} },
