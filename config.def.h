@@ -62,7 +62,7 @@ static const int repeat_rate = 50;
 static const int repeat_delay = 300;
 
 /* Trackpad */
-static const int tap_to_click = 1;
+static const int tap_to_click = 0;
 static const int tap_and_drag = 1;
 static const int drag_lock = 1;
 static const int natural_scrolling = 0;
@@ -75,7 +75,7 @@ LIBINPUT_CONFIG_SCROLL_2FG
 LIBINPUT_CONFIG_SCROLL_EDGE
 LIBINPUT_CONFIG_SCROLL_ON_BUTTON_DOWN
 */
-static const enum libinput_config_scroll_method scroll_method = LIBINPUT_CONFIG_SCROLL_EDGE;
+static const enum libinput_config_scroll_method scroll_method = LIBINPUT_CONFIG_SCROLL_2FG;
 
 /* You can choose between:
 LIBINPUT_CONFIG_CLICK_METHOD_NONE
@@ -118,16 +118,20 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
+static const char *screenshot_sc[] = { "screenshot", "-s", "-c", NULL };
+static const char *screenshot_ac[] = { "screenshot", "-a", "-c", NULL };
+static const char *screenshot_sf[] = { "screenshot", "-s", "-f", NULL };
+static const char *screenshot_af[] = { "screenshot", "-a", "-f", NULL };
 static const char *termcmd[] = { "foot", NULL };
 static const char *menucmd[] = { "wmenu-run", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */
 	/* modifier                  key                  function          argument */
-	{ MODKEY,                    XKB_KEY_c,           spawn,            CMD("screenshot", "-s", "-c") },
-	{ MODKEY,                    XKB_KEY_Print,       spawn,            CMD("screenshot", "-s", "-f") },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_c,           spawn,            CMD("screenshot", "-a", "-c") },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Print,       spawn,            CMD("screenshot", "-a", "-f") },
+	{ MODKEY,                    XKB_KEY_c,           spawn,            {.v = screenshot_sc} },
+	{ MODKEY,                    XKB_KEY_Print,       spawn,            {.v = screenshot_ac} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_c,           spawn,            {.v = screenshot_sf} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Print,       spawn,            {.v = screenshot_af} },
 	{ MODKEY,                    XKB_KEY_d,           spawn,            {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_f,           togglefullscreen, {0} },
 	{ MODKEY,                    XKB_KEY_q,           killclient,       {0} },
