@@ -52,9 +52,8 @@ static const MonitorRule monrules[] = {
 /* keyboard */
 static const struct xkb_rule_names xkb_rules = {
 	/* can specify fields: rules, model, layout, variant, options */
-	/* example:
-	.options = "ctrl:nocaps",
-	*/
+	.layout = "us",
+	.variant = "colemak",
 	.options = NULL,
 };
 
@@ -149,6 +148,7 @@ static const Key keys[] = {
 	{ 0, XKB_KEY_XF86MonBrightnessDown,               spawn,            CMD("setvol", "-d") },
 	{ 0, XKB_KEY_XF86AudioRaiseVolume,                spawn,            CMD("setvol", "-u") },
 	{ 0, XKB_KEY_XF86AudioLowerVolume,                spawn,            CMD("setvol", "-d") },
+	{ 0, XKB_KEY_XF86AudioMute,                       spawn,            CMD("setvol", "-m") },
 
 	{ MODKEY,                    XKB_KEY_j,           focusstack,       {.i = +1} },
 	{ MODKEY,                    XKB_KEY_k,           focusstack,       {.i = -1} },
