@@ -7,9 +7,9 @@
 static const int sloppyfocus               = 1;  /* focus follows mouse */
 static const int bypass_surface_visibility = 0;  /* 1 means idle inhibitors will disable idle tracking even if it's surface isn't visible  */
 static const unsigned int borderpx         = 1;  /* border pixel of windows */
-static const float rootcolor[]             = COLOR(0x222222ff);
-static const float bordercolor[]           = COLOR(0x444444ff);
-static const float focuscolor[]            = COLOR(0x005577ff);
+static const float rootcolor[]             = COLOR(0x000000ff);
+static const float bordercolor[]           = COLOR(0x51576dff);
+static const float focuscolor[]            = COLOR(0xb5bfe2ff);
 static const float urgentcolor[]           = COLOR(0xff0000ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You can also use glsl colors */
@@ -61,20 +61,20 @@ static const int repeat_rate = 50;
 static const int repeat_delay = 300;
 
 /* Trackpad */
-static const int tap_to_click = 0;
+static const int tap_to_click = 1;
 static const int tap_and_drag = 1;
 static const int drag_lock = 1;
 static const int natural_scrolling = 0;
 static const int disable_while_typing = 1;
 static const int left_handed = 0;
-static const int middle_button_emulation = 0;
+static const int middle_button_emulation = 1;
 /* You can choose between:
 LIBINPUT_CONFIG_SCROLL_NO_SCROLL
 LIBINPUT_CONFIG_SCROLL_2FG
 LIBINPUT_CONFIG_SCROLL_EDGE
 LIBINPUT_CONFIG_SCROLL_ON_BUTTON_DOWN
 */
-static const enum libinput_config_scroll_method scroll_method = LIBINPUT_CONFIG_SCROLL_2FG;
+static const enum libinput_config_scroll_method scroll_method = LIBINPUT_CONFIG_SCROLL_EDGE;
 
 /* You can choose between:
 LIBINPUT_CONFIG_CLICK_METHOD_NONE
@@ -122,7 +122,7 @@ static const char *screenshot_ac[] = { "screenshot", "-a", "-c", NULL };
 static const char *screenshot_sf[] = { "screenshot", "-s", "-f", NULL };
 static const char *screenshot_af[] = { "screenshot", "-a", "-f", NULL };
 static const char *termcmd[] = { "foot", NULL };
-static const char *menucmd[] = { "wmenu-run", NULL };
+static const char *menucmd[] = { "mew-run", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */
@@ -131,8 +131,11 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_Print,       spawn,            {.v = screenshot_ac} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_c,           spawn,            {.v = screenshot_sf} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Print,       spawn,            {.v = screenshot_af} },
+	{ MODKEY,                    XKB_KEY_p,           spawn,            CMD("colorpicker") },
 	{ MODKEY,                    XKB_KEY_d,           spawn,            {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_f,           togglefullscreen, {0} },
+	{ MODKEY,                    XKB_KEY_g,           spawn,            CMD("warpd", "--grid") },
+	{ MODKEY,                    XKB_KEY_r,           spawn,            CMD("warpd", "--hint2") },
 	{ MODKEY,                    XKB_KEY_q,           killclient,       {0} },
 	{ MODKEY,                    XKB_KEY_s,           togglefloating,   {0} },
 	{ MODKEY,                    XKB_KEY_z,           zoom,             {0} },
@@ -144,8 +147,8 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_ALT,   XKB_KEY_Up,          spawn,            CMD("setvol", "-u") },
 	{ MODKEY|WLR_MODIFIER_ALT,   XKB_KEY_Down,        spawn,            CMD("setvol", "-d") },
 
-	{ 0, XKB_KEY_XF86MonBrightnessUp,                 spawn,            CMD("setvol", "-u") },
-	{ 0, XKB_KEY_XF86MonBrightnessDown,               spawn,            CMD("setvol", "-d") },
+	{ 0, XKB_KEY_XF86MonBrightnessUp,                 spawn,            CMD("brightnessctl", "s", "5%+") },
+	{ 0, XKB_KEY_XF86MonBrightnessDown,               spawn,            CMD("brightnessctl", "s", "5%-") },
 	{ 0, XKB_KEY_XF86AudioRaiseVolume,                spawn,            CMD("setvol", "-u") },
 	{ 0, XKB_KEY_XF86AudioLowerVolume,                spawn,            CMD("setvol", "-d") },
 	{ 0, XKB_KEY_XF86AudioMute,                       spawn,            CMD("setvol", "-m") },
@@ -177,7 +180,7 @@ static const Key keys[] = {
 	TAGKEYS(          XKB_KEY_7, XKB_KEY_ampersand,                     6),
 	TAGKEYS(          XKB_KEY_8, XKB_KEY_asterisk,                      7),
 	TAGKEYS(          XKB_KEY_9, XKB_KEY_parenleft,                     8),
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Escape,      togglepassthrough,{0} },
+	{ MODKEY,                    XKB_KEY_Escape,      togglepassthrough,{0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_q,           quit,             {0} },
 
 	/* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
